@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FDSATest</string>
+    <string name="no_data_found">No data found</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="textError">Se ha producido un error</string>
+    <string name="titleError">Error</string>
+    <string name="main_title">HotelBediaX</string>
+    <string name="destination_title">Destinations</string>
+    <string name="error_modify">Se ha producido un error al modificar el producto seleccionado</string>
+    <string name="error_delete">Se ha producido un error al eliminar el producto selecionado</string>
+    <string name="search_name">Search (name)...</string>
+</resources>
