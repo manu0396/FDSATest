@@ -77,7 +77,6 @@ The project follows the **MVVM (Model-View-ViewModel)** architectural pattern, e
 ### Custom Table
 The app features a reusable **custom table component** built with Jetpack Compose. It supports:
 - Row selection.
-- Editable cells with `TextField`.
 - Long press to navigate to a detail screen.
 - Pull-to-refresh functionality.
 
