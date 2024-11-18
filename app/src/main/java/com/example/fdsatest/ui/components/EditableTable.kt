@@ -111,7 +111,7 @@ fun EditableTable(
                             containerColor = if (isSelected) Color.LightGray.copy(alpha = 1f) else Color.White
                         )
                     ) {
-                        Column(
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp) // Padding inside the card
@@ -139,10 +139,6 @@ fun EditableTable(
                                     )
                                 }
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
                                 listOf(
                                     rowData?.id ?: "",
                                     rowData?.name ?: "",
@@ -194,9 +190,6 @@ fun EditableTable(
                     }
                 }
             }
-
-
-        }
 
         PullRefreshIndicator(
             refreshing = isRefreshing,
