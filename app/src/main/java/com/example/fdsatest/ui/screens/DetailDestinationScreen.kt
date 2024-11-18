@@ -23,6 +23,7 @@ import com.example.fdsatest.data.remote.models.DestinationType
 import com.example.fdsatest.ui.components.AppBar
 import com.example.fdsatest.ui.components.DetailRow
 import com.example.fdsatest.ui.theme.FDSATestTheme
+import com.example.fdsatest.ui.theme.PrimaryColor
 import com.example.fdsatest.utils.DateUtils
 
 @Composable
@@ -47,8 +48,6 @@ fun DetailDestinationScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp)
-                    .background(Color(0xFFF3F4F6))  // Light background color
             ) {
                 destination?.let {
                     Column(
@@ -63,7 +62,7 @@ fun DetailDestinationScreen(
                         Text(
                             text = it.name ?: "Unknown Destination",
                             style = MaterialTheme.typography.displaySmall.copy(fontSize = 26.sp),
-                            color = MaterialTheme.colorScheme.primary,
+                            color = Color.Black,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
 
