@@ -128,16 +128,19 @@ class SharedViewModel @Inject constructor(
                 _showLoading.value = false
 
                 //END MOCK DATA
-                /* // COMENTAR ESTA LINEA PARA TESTEAR LA UI
-
-                                when (val resp = GetRemoteDestinationUseCase.getResults()) {
+                 // COMENTAR ESTA LINEA PARA TESTEAR LA UI
+                    /*
+                                when (val resp = GetRemoteDestinationUseCase.getAll()) {
                                     is WrapperResponse.Success -> {
                                         resp.data?.let { destinations ->
                                             _data.value =
                                                 destinations.map {
-                                                    MainMapper.destinationToDestionDomain(it)
+                                                    MainMapper.destinationToDestinationDomain(it)
                                                 }
-                                            _localData.value = resp.data.map { MainMapper.destinationToDestionDomain(it) }
+                                            resp.data.map {
+                                                GetLocalDestinationsUseCase.insert(MainMapper.destinationToDestinationData(it))
+                                            }
+                                            _localData.value = GetLocalDestinationsUseCase.getResults().data?.map { MainMapper.destinationDataToDestinationDomain(it) } ?: listOf()
                                             _showLoading.value = false
                                         }
                                     }
@@ -148,7 +151,8 @@ class SharedViewModel @Inject constructor(
                                         _showLoading.value = false
                                     }
                                 }
-                */ //COMENTAR ESTA LINEA PARA TESTEAR LA UI
+                */
+                 //COMENTAR ESTA LINEA PARA TESTEAR LA UI
             }
         } catch (e: Exception) {
             _messageDialog.value = e.message ?: context.getString(R.string.textError)
@@ -176,7 +180,7 @@ class SharedViewModel @Inject constructor(
                     is WrapperResponse.Success -> {
                         resp.data?.let { localData ->
                             _localData.value =
-                                localData.map { MainMapper.destinationDataToDestionDomain(it) }
+                                localData.map { MainMapper.destinationDataToDestinationDomain(it) }
                             _showLoading.value = false
                         }
                     }

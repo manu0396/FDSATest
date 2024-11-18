@@ -1,7 +1,6 @@
 package com.example.fdsatest.domain.mapper
 
 import android.icu.util.Calendar
-import androidx.core.graphics.set
 import com.example.fdsatest.data.local.models.DestinationData
 import com.example.fdsatest.data.remote.models.Destination
 import com.example.fdsatest.data.remote.models.DestinationType
@@ -31,7 +30,7 @@ object MainMapper {
             LastModify = destinationData.LastModify
         )
     }
-    fun destinationToDestionDomain(destination: Destination): DestinationDomain {
+    fun destinationToDestinationDomain(destination: Destination): DestinationDomain {
         return DestinationDomain(
             id = destination.Id.toString(),
             name = destination.Name,
@@ -52,7 +51,7 @@ object MainMapper {
         )
     }
 
-    fun destinationDataToDestionDomain(destinationData: DestinationData): DestinationDomain {
+    fun destinationDataToDestinationDomain(destinationData: DestinationData): DestinationDomain {
         return DestinationDomain(
             id = destinationData.Id,
             name = destinationData.Name,
@@ -64,7 +63,7 @@ object MainMapper {
     }
 
 
-    fun TimestampDTO.toTimestamp(): Timestamp {
+    private fun TimestampDTO.toTimestamp(): Timestamp {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, day, hour, minute, second)
         calendar.set(Calendar.MILLISECOND, millisecond)
