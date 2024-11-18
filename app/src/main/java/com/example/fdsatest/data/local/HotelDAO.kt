@@ -11,7 +11,7 @@ import com.example.fdsatest.data.local.models.DestinationData
 @Dao
 interface HotelDAO {
    @Insert
-   suspend fun insert(destinationData: DestinationData)
+   suspend fun insert(destinationData: DestinationData): Int
 
    @Query("SELECT * FROM destinations")
    suspend fun getAll(): List<DestinationData>

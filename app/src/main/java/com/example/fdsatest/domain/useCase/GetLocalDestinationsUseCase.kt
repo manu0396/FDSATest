@@ -11,7 +11,7 @@ import javax.inject.Inject
 class GetLocalDestinationsUseCase @Inject constructor(
     private val localDatabaseUseCase: LocalDatabase,
 ) {
-
+    //TODO: FIX MODELS
     suspend fun getResults(): WrapperResponse<List<DestinationData>> {
         val resp = try {
             localDatabaseUseCase.dao().getAll()
@@ -22,12 +22,12 @@ class GetLocalDestinationsUseCase @Inject constructor(
     }
 
     suspend fun insert(destinationData: DestinationData):WrapperResponse<Int>{
-        try {
+        val resp = try {
             localDatabaseUseCase.dao().insert(destinationData)
         }catch (e: Exception){
             return WrapperResponse.Error("Se ha producido un error: ${e.message}")
         }
-        return WrapperResponse.Success(1) // Rows inserted
+        return WrapperResponse.Success(resp) // Rows inserted
     }
 
     suspend fun delete(destinationData: DestinationData): WrapperResponse<Int>{

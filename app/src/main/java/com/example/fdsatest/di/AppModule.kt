@@ -3,6 +3,8 @@ package com.example.fdsatest.di
 import com.example.fdsatest.BuildConfig
 import com.example.fdsatest.data.remote.ApiClient
 import com.example.fdsatest.data.remote.HotelBediaXApi
+import com.example.fdsatest.data.remote.repository.IRepository
+import com.example.fdsatest.data.remote.repository.RepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +21,15 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideAPi(): HotelBediaXApi {
+    fun provideRepositoryImpl(): IRepository {
+        return RepositoryImpl(
+            provideApi()
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideApi(): HotelBediaXApi {
         httpClient.addInterceptor(getInterceptor())
         return ApiClient(
             baseUrl = BuildConfig.API_URL,

@@ -1,47 +1,47 @@
 package com.example.fdsatest.domain.useCase
 
 import com.example.fdsatest.data.remote.models.Destination
-import com.example.fdsatest.data.remote.HotelBediaXApi
+import com.example.fdsatest.data.remote.repository.IRepository
 import com.example.fdsatest.utils.WrapperResponse
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import java.lang.Exception
 import javax.inject.Inject
 
 @ActivityRetainedScoped
 class GetRemoteDestinationsUseCase @Inject constructor(
-    private val hotelBediaXApi: HotelBediaXApi
+    private val repositoryImpl: IRepository
 ) {
 
+   //TODO: FIX MODELS
    suspend fun getAll():WrapperResponse<List<Destination>>{
         val resp = try {
-            hotelBediaXApi.getAll()
+            repositoryImpl.getAll()
         }catch (e:Exception){
             return WrapperResponse.Error("Se ha producido un error: ${e.message}")
         }
         return WrapperResponse.Success(resp)
     }
 
-    suspend fun deleteById(id: Int): WrapperResponse<Int>{
+    suspend fun deleteById(id: Int): WrapperResponse<Unit>{
         val resp = try {
-            hotelBediaXApi.deleteById(id)
+            repositoryImpl.deleteById(id)
         }catch (e: Exception){
             return WrapperResponse.Error("Se ha producido un error: ${e.message}")
         }
         return WrapperResponse.Success(resp)
     }
 
-    suspend fun create(destination: Destination):WrapperResponse<Int>{
+    suspend fun create(destination: Destination):WrapperResponse<Unit>{
         val resp = try {
-            hotelBediaXApi.create(destination)
+            repositoryImpl.create(destination)
         }catch (e: Exception){
             return WrapperResponse.Error("Se ha producido un error: ${e.message}")
         }
         return WrapperResponse.Success(resp)
     }
 
-    suspend fun update(destination: Destination):WrapperResponse<Int>{
+    suspend fun update(destination: Destination):WrapperResponse<Unit>{
         val resp = try {
-            hotelBediaXApi.update(destination, destination.Id)
+            repositoryImpl.update(destination)
         }catch (e:Exception){
             return WrapperResponse.Error("Se ha producido un error ${e.message}")
         }

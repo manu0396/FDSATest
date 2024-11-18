@@ -14,16 +14,16 @@ interface HotelBediaXApi{
     @GET("/api/destination/{id}")
     suspend fun deleteById(
         @Path("id") id: Int
-    ): Int //Int represent 0 or 1
+    )
 
     @POST("/api/destinations")
     suspend fun create(
         @Body destination: Destination
-    ): Int //Int represent 0 or 1
+    )
 
     @POST("/api/destination/{id}")
     suspend fun update(
         @Body destination: Destination,
         @Path("id") id: Int
-    ): Int //Int represent 0 or 1
+    )
 }
