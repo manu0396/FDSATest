@@ -98,7 +98,7 @@ fun EditableTable(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 4.dp, vertical = 2.dp) // Add spacing around the card
+                            .padding(horizontal = 8.dp, vertical = 4.dp) // Add spacing around the card
                             .clickable {
                                 if (!isModifyMode) {
                                     onCellSelected(rowIndex)
