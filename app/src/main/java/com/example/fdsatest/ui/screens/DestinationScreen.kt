@@ -156,8 +156,6 @@ fun DestinationScreen(
                         .padding(32.dp)
                 ) {
                     // VerticalDataSelector with Search Button
-                    var selectedItem by remember { mutableStateOf("") }
-
                     VerticalDataSelector(
                         modifier = Modifier
                             .fillMaxWidth()
