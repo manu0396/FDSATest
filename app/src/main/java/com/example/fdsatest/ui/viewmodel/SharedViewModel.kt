@@ -252,37 +252,21 @@ class SharedViewModel @Inject constructor(
 
 
     fun deleteDestination(rowIndex: Int?) {
-        // Ensure that the provided index is valid and not null
         rowIndex?.let {
             val currentData = _data.value.toMutableList()
-            val currentLocalData = _localData.value.toMutableList()
 
-            // Check if the index is within the bounds of the _data and _localData lists
             if (it in currentData.indices) {
-                // Remove the item at the specified index in both lists
                 currentData.removeAt(it)
-                _data.value = currentData // Update the state to trigger recomposition
+                _data.value = currentData.toList() // Trigger recomposition
+                mutableMockData = currentData.toMutableList() // Update mock data
+                _localData.value = currentData.toList()// Trigger recomposition
             } else {
-                Log.e("Delete", "Invalid index $it for _data list")
-                _showDialog.value = true
-                _messageDialog.value = "Invalid index: row $it"
-            }
-
-            if (it in currentLocalData.indices) {
-                currentLocalData.removeAt(it)
-                _localData.value = currentLocalData // Update the state to trigger recomposition
-            } else {
-                Log.e("Delete", "Invalid index $it for _localData list")
-            }
-
-            if (it in mutableMockData.indices) {
-                mutableMockData.removeAt(it) // Sync mock data if used for testing
+                Log.e("Delete", "Index out of bounds: $it. Size=${currentData.size}")
+                showError("Failed to delete. Index out of bounds.")
             }
         } ?: run {
-            // Handle null index case (e.g., if no row was selected)
             Log.e("Delete", "Row index is null")
-            _showDialog.value = true
-            _messageDialog.value = "No row selected for deletion"
+            showError("No row selected for deletion.")
         }
     }
 
