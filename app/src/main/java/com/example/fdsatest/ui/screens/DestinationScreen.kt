@@ -135,6 +135,7 @@ fun DestinationScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .background(color = Color.White)
             ) {
                 // Title
                 H1Text(

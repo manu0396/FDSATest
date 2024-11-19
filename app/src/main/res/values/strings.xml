@@ -10,4 +10,10 @@
     <string name="error_modify">Se ha producido un error al modificar el producto seleccionado</string>
     <string name="error_delete">Se ha producido un error al eliminar el producto selecionado</string>
     <string name="search_name">Search (name)...</string>
+    <string name="detailDestinationTitle">Destination Details</string>
+    <string name="unknownDestination">Unknown Destination</string>
+    <string name="noDescription">No description available</string>
+    <string name="na">N/A</string>
+    <string name="noUrl">No URL provided</string>
+    <string name="descriptionNotFound">Destination not found</string>
 </resources>

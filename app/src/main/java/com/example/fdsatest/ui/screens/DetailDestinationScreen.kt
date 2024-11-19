@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.fdsatest.R
 import com.example.fdsatest.ui.viewmodel.SharedViewModel
 import com.example.fdsatest.data.remote.models.DestinationType
 import com.example.fdsatest.ui.components.AppBar
@@ -38,7 +39,7 @@ fun DetailDestinationScreen(
         Scaffold(
             topBar = {
                 AppBar(
-                    title = "Destination Details",
+                    title = context.getString(R.string.detailDestinationTitle),
                     onBackClick = { navController.popBackStack() }
                 )
             },
@@ -47,20 +48,20 @@ fun DetailDestinationScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
+                    .background(color = Color.White)
             ) {
                 destination?.let {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(paddingValues)
                             .background(Color.White, shape = RoundedCornerShape(16.dp))
                             .padding(24.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         // Title and Name
                         Text(
-                            text = it.name ?: "Unknown Destination",
+                            text = it.name ?: context.getString(R.string.unknownDestination),
                             style = MaterialTheme.typography.displaySmall.copy(fontSize = 26.sp),
                             color = Color.Black,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -72,14 +73,14 @@ fun DetailDestinationScreen(
                         DetailRow(
                             icon = Icons.Default.Info,
                             label = "Description",
-                            content = it.description ?: "No description available"
+                            content = it.description ?: context.getString(R.string.noDescription)
                         )
 
                         // Detail Row for Country Mode
                         DetailRow(
                             icon = Icons.Default.Place,
                             label = "Country",
-                            content = it.countryMode ?: "N/A"
+                            content = it.countryMode ?: context.getString(R.string.na)
                         )
 
                         // Detail Row for Type
@@ -93,7 +94,7 @@ fun DetailDestinationScreen(
                         DetailRow(
                             icon = Icons.Default.Info,
                             label = "Picture URL",
-                            content = it.picture ?: "No URL provided"
+                            content = it.picture ?: context.getString(R.string.noUrl)
                         )
 
                         // Detail Row for Last Modify
@@ -104,7 +105,7 @@ fun DetailDestinationScreen(
                         )
                     }
                 } ?: Text(
-                    text = "Destination not found",
+                    text = context.getString(R.string.descriptionNotFound),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.align(Alignment.Center),
                     color = MaterialTheme.colorScheme.error
