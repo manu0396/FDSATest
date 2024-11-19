@@ -83,9 +83,6 @@ fun DestinationScreen(
     }
 // State for managing modify mode
     var isModifyMode by remember { mutableStateOf(false) }
-    // State for managing search result dialog
-    var showDialogSearchResult by remember { mutableStateOf(false) }
-    var searchResultItem by remember { mutableStateOf<DestinationDomain?>(null) }
 
     val isPortrait = when (LocalConfiguration.current.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
