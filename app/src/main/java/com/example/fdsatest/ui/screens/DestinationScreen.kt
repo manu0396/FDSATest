@@ -180,46 +180,6 @@ fun DestinationScreen(
                                 shape = RoundedCornerShape(16.dp)
                             )
                             .padding(16.dp),
-                        onCellEdited = { rowIndex, colIndex, newValue ->
-                            viewModel.data.value.getOrNull(rowIndex)?.let { destination ->
-                                // Preserve the original id while updating other fields
-                                val updatedDestination = when (colIndex) {
-                                    1 -> destination.copy(id = destination.id, name = newValue)
-                                    2 -> destination.copy(
-                                        id = destination.id,
-                                        description = newValue
-                                    )
-
-                                    3 -> destination.copy(
-                                        id = destination.id,
-                                        countryMode = newValue
-                                    )
-
-                                    4 -> destination.copy(
-                                        id = destination.id,
-                                        type = DestinationType.valueOf(newValue)
-                                    )
-
-                                    5 -> destination.copy(id = destination.id, picture = newValue)
-                                    6 -> {
-                                        val timestampValue = newValue.toLongOrNull()
-                                            ?: destination.lastModify?.millis
-                                        destination.copy(
-                                            id = destination.id,
-                                            lastModify = timestampValue?.let { Timestamp(it) }
-                                        )
-                                    }
-
-                                    else -> destination
-                                }
-                                viewModel.updateDestination(rowIndex, updatedDestination)
-                                viewModel.setSelectedDestinationIndex(null)
-                            }
-                        },
-                        onCellDeleted = { rowIndex, _ ->
-                            viewModel.deleteDestination(rowIndex)
-                            viewModel.setSelectedDestinationIndex(null)
-                        },
                         onCellSelected = { rowIndex ->
                             viewModel.setSelectedDestinationIndex(selectedRowIndex ?: rowIndex)
                             Log.d("RowIndex", "SelectedIndex: $rowIndex")
@@ -420,14 +380,20 @@ fun DestinationScreen(
                                         } else {
                                             viewModel.showError("ID and Name cannot be empty") // Show error if essential fields are missing
                                         }
-                                    }
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = PrimaryColor
+                                    )
                                 ) {
                                     Text("Create")
                                 }
                             },
                             dismissButton = {
                                 Button(
-                                    onClick = { viewModel.showDialogCreate(false) }
+                                    onClick = { viewModel.showDialogCreate(false) },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Red
+                                    ),
                                 ) {
                                     Text("Cancel")
                                 }
@@ -525,14 +491,20 @@ fun DestinationScreen(
                                         )
                                     }
                                     viewModel.showDialogModify(false)
-                                }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = PrimaryColor
+                                )
                             ) {
                                 Text("Modify")
                             }
                         },
                         dismissButton = {
                             Button(
-                                onClick = { viewModel.showDialogModify(false) }
+                                onClick = { viewModel.showDialogModify(false) },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Red
+                                )
                             ) {
                                 Text("Cancel")
                             }
@@ -567,14 +539,20 @@ fun DestinationScreen(
                                         )
                                     }
                                     viewModel.showDialogDelete(false)
-                                }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = PrimaryColor
+                                )
                             ) {
                                 Text("Delete")
                             }
                         },
                         dismissButton = {
                             Button(
-                                onClick = { viewModel.showDialogDelete(false) }
+                                onClick = { viewModel.showDialogDelete(false) },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Red
+                                )
                             ) {
                                 Text("Cancel")
                             }

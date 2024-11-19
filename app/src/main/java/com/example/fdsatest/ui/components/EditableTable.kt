@@ -32,8 +32,6 @@ import com.example.fdsatest.utils.DateUtils
 @Composable
 fun EditableTable(
     data: List<DestinationDomain?>,
-    onCellEdited: (rowIndex: Int, colIndex: Int, newValue: String) -> Unit,
-    onCellDeleted: (rowIndex: Int, colIndex: Int) -> Unit,
     onCellSelected: (rowIndex: Int) -> Unit,
     selectedRowIndex: MutableState<Int?>,
     isModifyMode: Boolean,
@@ -91,14 +89,22 @@ fun EditableTable(
 
             // Scrollable content for data rows within pull-to-refresh
             LazyColumn {
-                itemsIndexed(data, key = { index, item -> item?.id ?: index.toString() }) { rowIndex, rowData ->
+                itemsIndexed(
+                    data,
+                    key = { index, item -> item?.id ?: index.toString() }) { rowIndex, rowData ->
                     val isSelected = rowIndex == selectedRowIndex.value
-                    Log.d("rowIndex", "rowIndex: $rowIndex selectedRowIndex: $selectedRowIndex data: ${rowData?.name} isSelected: $isSelected")
+                    Log.d(
+                        "rowIndex",
+                        "rowIndex: $rowIndex selectedRowIndex: $selectedRowIndex data: ${rowData?.name} isSelected: $isSelected"
+                    )
 
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp) // Add spacing around the card
+                            .padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ) // Add spacing around the card
                             .clickable {
                                 if (!isModifyMode) {
                                     onCellSelected(rowIndex)
@@ -134,62 +140,50 @@ fun EditableTable(
                                         onPress = {
                                             selectedRowIndex.value = rowIndex
                                             viewModel.setSelectedDestinationIndex(rowIndex)
-                                            Log.d("rowIndex", "update selectedRowIndex: ${selectedRowIndex.value}")
+                                            Log.d(
+                                                "rowIndex",
+                                                "update selectedRowIndex: ${selectedRowIndex.value}"
+                                            )
                                         }
                                     )
                                 }
                         ) {
-                                listOf(
-                                    rowData?.id ?: "",
-                                    rowData?.name ?: "",
-                                    rowData?.description ?: "",
-                                    rowData?.countryMode ?: "",
-                                    rowData?.type?.name ?: "",
-                                    rowData?.picture ?: "",
-                                    DateUtils.formatDateFromMillis(rowData?.lastModify?.millis ?: 0L)
-                                ).forEachIndexed { colIndex, value ->
-                                    Box(
-                                        modifier = Modifier
-                                            .padding(4.dp)
-                                            .width(150.dp)
-                                    ) {
-                                        if (isModifyMode && colIndex != 0) {
-                                            TextField(
-                                                value = value,
-                                                onValueChange = { newValue ->
-                                                    onCellEdited(rowIndex, colIndex, newValue)
-                                                },
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .pointerInput(Unit) {
-                                                        detectTapGestures(onDoubleTap = {
-                                                            onCellDeleted(rowIndex, colIndex)
-                                                        })
-                                                    }
-                                            )
-                                        } else {
-                                            Text(
-                                                text = value,
-                                                modifier = Modifier.fillMaxWidth(),
-                                                color = if (colIndex == 0) Color.Gray else Color.Black
-                                            )
-                                        }
-                                    }
+                            listOf(
+                                rowData?.id ?: "",
+                                rowData?.name ?: "",
+                                rowData?.description ?: "",
+                                rowData?.countryMode ?: "",
+                                rowData?.type?.name ?: "",
+                                rowData?.picture ?: "",
+                                DateUtils.formatDateFromMillis(rowData?.lastModify?.millis ?: 0L)
+                            ).forEachIndexed { colIndex, value ->
+                                Box(
+                                    modifier = Modifier
+                                        .padding(4.dp)
+                                        .width(150.dp)
+                                ) {
 
-                                    if (colIndex < headers.size - 1) {
-                                        HorizontalDivider(
-                                            modifier = Modifier
-                                                .fillMaxHeight()
-                                                .width(1.dp),
-                                            color = Color.Gray
-                                        )
-                                    }
+                                    Text(
+                                        text = value,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        color = if (colIndex == 0) Color.Gray else Color.Black
+                                    )
+                                }
+
+                                if (colIndex < headers.size - 1) {
+                                    HorizontalDivider(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp),
+                                        color = Color.Gray
+                                    )
                                 }
                             }
                         }
                     }
                 }
             }
+        }
 
         PullRefreshIndicator(
             refreshing = isRefreshing,
