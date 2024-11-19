@@ -129,7 +129,8 @@ fun DestinationScreen(
                     title = context.getString(R.string.main_title),
                     onBackClick = { navController.popBackStack() }
                 )
-            }
+            },
+            bottomBar = { BottomNavigationBar() }
         ) { paddingValues ->
             // Box to contain main content
             Box(
