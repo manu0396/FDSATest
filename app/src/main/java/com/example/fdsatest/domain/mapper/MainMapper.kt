@@ -16,7 +16,10 @@ object MainMapper {
             Description = destination.Description,
             CountryCode = destination.CountryCode,
             Type = destination.Type.toString(),
-            LastModify = TimestampDTO.parse(destination.LastModify.toString(), "dd/mm/yyyy HH:mm:ss")
+            LastModify = TimestampDTO.parse(
+                destination.LastModify.toString(),
+                "dd/mm/yyyy HH:mm:ss"
+            )
         )
     }
 
@@ -30,6 +33,7 @@ object MainMapper {
             LastModify = destinationData.LastModify
         )
     }
+
     fun destinationToDestinationDomain(destination: Destination): DestinationDomain {
         return DestinationDomain(
             id = destination.Id.toString(),
@@ -37,6 +41,17 @@ object MainMapper {
             description = destination.Description,
             countryMode = destination.CountryCode,
             type = destination.Type,
+        )
+    }
+
+    fun destinationDomainToDestinationData(destinationDomain: DestinationDomain): DestinationData {
+        return DestinationData(
+            Id = destinationDomain.id ?: "",
+            Name = destinationDomain.name ?: "",
+            Description = destinationDomain.description ?: "",
+            CountryCode = destinationDomain.countryMode ?: "",
+            Type = (destinationDomain.type ?: DestinationType.Country.name).toString(),
+            LastModify = destinationDomain.lastModify?.toDTO() ?: TimestampDTO()
         )
     }
 
@@ -68,5 +83,20 @@ object MainMapper {
         calendar.set(year, month - 1, day, hour, minute, second)
         calendar.set(Calendar.MILLISECOND, millisecond)
         return Timestamp(calendar.timeInMillis)
+    }
+
+    private fun Timestamp.toDTO(): TimestampDTO {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = millis
+        }
+        return TimestampDTO(
+            year = calendar.get(Calendar.YEAR),
+            month = calendar.get(Calendar.MONTH) + 1,
+            day = calendar.get(Calendar.DAY_OF_MONTH),
+            hour = calendar.get(Calendar.HOUR_OF_DAY),
+            minute = calendar.get(Calendar.MINUTE),
+            second = calendar.get(Calendar.SECOND),
+            millisecond = calendar.get(Calendar.MILLISECOND)
+        )
     }
 }

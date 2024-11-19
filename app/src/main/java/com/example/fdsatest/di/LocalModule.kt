@@ -11,6 +11,9 @@ import dagger.hilt.components.SingletonComponent
 import com.example.fdsatest.data.local.HotelDAO
 import com.example.fdsatest.data.local.LocalDatabase
 import com.example.fdsatest.domain.useCase.GetLocalDestinationsUseCase
+import com.example.fdsatest.domain.useCase.GetResultByIdUseCase
+import com.example.fdsatest.domain.useCase.InsertLocalDestinationUseCase
+import com.example.fdsatest.domain.useCase.RemoveLocalDestinationUseCase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -36,5 +39,23 @@ class LocalModule {
     @Singleton
     fun provideLocalDatabaseUseCase(@ApplicationContext context: Context): GetLocalDestinationsUseCase {
         return GetLocalDestinationsUseCase(provideDB(context))
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetResultByIdUseCase(@ApplicationContext context: Context): GetResultByIdUseCase {
+        return GetResultByIdUseCase(provideDB(context))
+    }
+
+    @Provides
+    @Singleton
+    fun provideInsertLocalDestinationUseCase(@ApplicationContext context: Context): InsertLocalDestinationUseCase {
+        return InsertLocalDestinationUseCase(provideDB(context))
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoveLocalDestinationUseCase(@ApplicationContext context: Context): RemoveLocalDestinationUseCase {
+        return RemoveLocalDestinationUseCase(provideDB(context))
     }
 }

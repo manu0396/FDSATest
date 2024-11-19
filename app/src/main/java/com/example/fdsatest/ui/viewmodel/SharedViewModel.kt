@@ -11,9 +11,13 @@ import com.example.fdsatest.domain.mapper.MainMapper
 import com.example.fdsatest.domain.models.DestinationDomain
 import com.example.fdsatest.domain.useCase.GetLocalDestinationsUseCase
 import com.example.fdsatest.domain.useCase.GetRemoteDestinationsUseCase
+import com.example.fdsatest.domain.useCase.GetResultByIdUseCase
+import com.example.fdsatest.domain.useCase.InsertLocalDestinationUseCase
+import com.example.fdsatest.domain.useCase.RemoveLocalDestinationUseCase
 import com.example.fdsatest.utils.WrapperResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -95,6 +99,15 @@ class SharedViewModel @Inject constructor(
     @Inject
     lateinit var GetLocalDestinationsUseCase: GetLocalDestinationsUseCase
 
+    @Inject
+    lateinit var GetResultByIdUseCase: GetResultByIdUseCase
+
+    @Inject
+    lateinit var InsertLocalDestinationUseCase: InsertLocalDestinationUseCase
+
+    @Inject
+    lateinit var RemoveLocalDestinationUseCase: RemoveLocalDestinationUseCase
+
     fun setSelectedDestination(destination: DestinationDomain){
         _selectedDestination.value = destination
     }
@@ -120,11 +133,19 @@ class SharedViewModel @Inject constructor(
                  */
                 if(isRefreshing == true){
                     //Trigger recomposition
+                    getLocalData(context)
                     delay(1000)
                 }
                 _data.value = mutableMockData
 
                 _localData.value = mutableMockData
+
+                //InsertData into localDatabase
+                mutableMockData.map {destinationDomain ->
+                    if (destinationDomain != null) {
+                        MainMapper.destinationDomainToDestinationData(destinationDomain)
+                    }
+                }
 
                 _showLoading.value = false
 
@@ -204,69 +225,91 @@ class SharedViewModel @Inject constructor(
     }
 
     fun createDestination(newDestination: DestinationDomain) {
-        val updatedData = _data.value.toMutableList()
-        updatedData.add(newDestination)
-        _data.value = updatedData.toList() // Trigger recomposition
+        viewModelScope.launch(Dispatchers.IO) {
+            val updatedData = _data.value.toMutableList()
+            updatedData.add(newDestination)
+            _data.value = updatedData.toList() // Trigger recomposition
 
-        val updatedLocalData = _localData.value.toMutableList()
-        updatedLocalData.add(newDestination)
-        _localData.value = updatedLocalData.toList() // Trigger recomposition
+            val updatedLocalData = _localData.value.toMutableList()
+            updatedLocalData.add(newDestination)
+            _localData.value = updatedLocalData.toList() // Trigger recomposition
 
-        mutableMockData = updatedData.toMutableList() // Trigger recomposition
+            mutableMockData = updatedData.toMutableList() // Trigger recomposition
+            InsertLocalDestinationUseCase.insert(MainMapper.destinationDomainToDestinationData(newDestination))
+        }
     }
 
     fun updateDestination(index: Int, updatedDestination: DestinationDomain) {
-        val newData = _data.value.toMutableList()
-        val newLocalData = _localData.value.toMutableList()
+        viewModelScope.launch(Dispatchers.IO) {
+            val newData = _data.value.toMutableList()
+            val newLocalData = _localData.value.toMutableList()
 
-        if (index in newData.indices) {
-            Log.d("Update", "Existing item before update: ${newData[index]}")
-            val existingItem = newData[index]
-            val safeUpdatedDestination = updatedDestination.copy(
-                id = existingItem?.id ?: updatedDestination.id
-            )
+            if (index in newData.indices) {
+                Log.d("Update", "Existing item before update: ${newData[index]}")
+                val existingItem = newData[index]
+                val safeUpdatedDestination = updatedDestination.copy(
+                    id = existingItem?.id ?: updatedDestination.id
+                )
 
-            newData[index] = safeUpdatedDestination
-            _data.value = newData.toList() // Trigger recomposition
-            mutableMockData = newData.toMutableList()
-            Log.d("Update", "Updated _data after modification: ${_data.value}")
-        }
+                newData[index] = safeUpdatedDestination
+                _data.value = newData.toList() // Trigger recomposition
+                mutableMockData = newData.toMutableList()
+                Log.d("Update", "Updated _data after modification: ${_data.value}")
+            }
 
-        if (index in newLocalData.indices) {
-            Log.d("Update", "Existing local item before update: ${newLocalData[index]}")
-            val existingItem = newLocalData[index]
-            val safeUpdatedDestination = updatedDestination.copy(
-                id = existingItem?.id ?: updatedDestination.id
-            )
+            if (index in newLocalData.indices) {
+                Log.d("Update", "Existing local item before update: ${newLocalData[index]}")
+                val existingItem = newLocalData[index]
+                val safeUpdatedDestination = updatedDestination.copy(
+                    id = existingItem?.id ?: updatedDestination.id
+                )
 
-            newLocalData[index] = safeUpdatedDestination
-            _localData.value = newLocalData.toList() // Trigger recomposition
-            Log.d("Update", "Updated _localData after modification: ${_localData.value}")
-        } else {
-            Log.e("Update", "Invalid index $index for data or localData list")
-            _showDialog.value = true
-            _messageDialog.value = "Invalid index: row $index"
+                newLocalData[index] = safeUpdatedDestination
+                _localData.value = newLocalData.toList() // Trigger recomposition
+                //Remove item and add again
+                if (existingItem != null){
+                    RemoveLocalDestinationUseCase.delete(MainMapper.destinationDomainToDestinationData(existingItem))
+                    InsertLocalDestinationUseCase.insert(MainMapper.destinationDomainToDestinationData(updatedDestination))
+                }
+                Log.d("Update", "Updated _localData after modification: ${_localData.value}")
+            } else {
+                Log.e("Update", "Invalid index $index for data or localData list")
+                _showDialog.value = true
+                _messageDialog.value = "Invalid index: row $index"
+            }
         }
     }
 
-
-
     fun deleteDestination(rowIndex: Int?) {
-        rowIndex?.let {
-            val currentData = _data.value.toMutableList()
+        viewModelScope.launch(Dispatchers.IO) {
+            rowIndex?.let {
+                val currentData = _data.value.toMutableList()
 
-            if (it in currentData.indices) {
-                currentData.removeAt(it)
-                _data.value = currentData.toList() // Trigger recomposition
-                mutableMockData = currentData.toMutableList() // Update mock data
-                _localData.value = currentData.toList()// Trigger recomposition
-            } else {
-                Log.e("Delete", "Index out of bounds: $it. Size=${currentData.size}")
-                showError("Failed to delete. Index out of bounds.")
+                if (it in currentData.indices) {
+                    //Remove from local
+                    currentData[rowIndex]?.let { destinationDomain ->
+                        MainMapper.destinationDomainToDestinationData(
+                            destinationDomain
+                        )
+                    }?.let { destinationData ->
+                        RemoveLocalDestinationUseCase.delete(
+                            destinationData
+                        )
+                    }
+
+                    currentData.removeAt(it)
+                    _data.value = currentData.toList() // Trigger recomposition
+                    mutableMockData = currentData.toMutableList() // Update mock data
+                    _localData.value = currentData.toList()// Trigger recomposition
+
+                } else {
+                    Log.e("Delete", "Index out of bounds: $it. Size=${currentData.size}")
+                    showError("Failed to delete. Index out of bounds.")
+                }
+            } ?: run {
+                Log.e("Delete", "Row index is null")
+                showError("No row selected for deletion.")
             }
-        } ?: run {
-            Log.e("Delete", "Row index is null")
-            showError("No row selected for deletion.")
         }
     }
 

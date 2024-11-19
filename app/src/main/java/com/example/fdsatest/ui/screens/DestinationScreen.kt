@@ -182,7 +182,7 @@ fun DestinationScreen(
                             )
                             .padding(16.dp),
                         onCellSelected = { rowIndex ->
-                            viewModel.setSelectedDestinationIndex(selectedRowIndex ?: rowIndex)
+                            viewModel.setSelectedDestinationIndex(rowIndex)
                             Log.d("RowIndex", "SelectedIndex: $rowIndex")
                             viewModel.data.value.getOrNull(rowIndex)?.let { destination ->
                                 viewModel.setSelectedDestination(destination)
