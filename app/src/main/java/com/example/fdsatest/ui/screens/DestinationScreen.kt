@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -335,10 +336,11 @@ fun DestinationScreen(
                                     Spacer(modifier = Modifier.height(16.dp))
                                     Text("Type:")
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    TextField(
-                                        value = createDestinationType,
-                                        onValueChange = { createDestinationType = it },
-                                        modifier = Modifier.fillMaxWidth()
+                                    DropdownSelector(
+                                        label = context.getString(R.string.typeLabel),
+                                        options = listOf("City", "Country"),
+                                        selectedOption = createDestinationType,
+                                        onOptionSelected = { selectedType -> createDestinationType = selectedType }
                                     )
                                     Spacer(modifier = Modifier.height(16.dp))
                                     Text("Picture:")
@@ -436,10 +438,12 @@ fun DestinationScreen(
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text("Type:")
                                 Spacer(modifier = Modifier.height(8.dp))
-                                TextField(
-                                    value = createDestinationType,
-                                    onValueChange = { createDestinationType = it },
-                                    modifier = Modifier.fillMaxWidth()
+                                // DropdownMenu for selecting type
+                                DropdownSelector(
+                                    label = context.getString(R.string.typeLabel),
+                                    options = listOf("City", "Country"),
+                                    selectedOption = createDestinationType,
+                                    onOptionSelected = { selectedType -> createDestinationType = selectedType }
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 Text("Picture:")
@@ -472,7 +476,7 @@ fun DestinationScreen(
                                                 createDestinationName,
                                                 createDestinationDescription,
                                                 createDestinationCountryMode,
-                                                DestinationType.valueOf(createDestinationType),
+                                                DestinationType.valueOf(createDestinationType), // Ensure correct enum value
                                                 createDestinationPicture,
                                                 Timestamp(createDestinationLastModify.millis)
                                             )
@@ -511,6 +515,7 @@ fun DestinationScreen(
                             }
                         }
                     )
+
                 }
 
                 // Delete Destination Dialog
