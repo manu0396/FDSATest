@@ -31,6 +31,7 @@ import com.example.fdsatest.ui.theme.FDSATestTheme
 import com.example.fdsatest.ui.theme.PrimaryColor
 import com.example.fdsatest.utils.DateUtils
 import com.example.fdsatest.utils.NetworkUtils
+import java.util.Date
 
 @Composable
 fun DestinationScreen(
@@ -452,7 +453,7 @@ fun DestinationScreen(
                                 Text("Last Modify:")
                                 Spacer(modifier = Modifier.height(8.dp))
                                 BasicTextField(
-                                    value = createDestinationLastModify.toString(),
+                                    value = DateUtils.formatDateFromMillis(createDestinationLastModify.millis),
                                     onValueChange = {
                                         createDestinationLastModify = Timestamp(it.toLong())
                                     },
