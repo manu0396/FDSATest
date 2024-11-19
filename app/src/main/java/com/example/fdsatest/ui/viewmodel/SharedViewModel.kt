@@ -119,6 +119,7 @@ class SharedViewModel @Inject constructor(
                  * MOCK DATA: Descomentar este código y comentar el 'when' una vez el servidor de produccion este disponible.
                  */
                 if(isRefreshing == true){
+                    //Trigger recomposition
                     delay(1000)
                 }
                 _data.value = mutableMockData
@@ -205,13 +206,13 @@ class SharedViewModel @Inject constructor(
     fun createDestination(newDestination: DestinationDomain) {
         val updatedData = _data.value.toMutableList()
         updatedData.add(newDestination)
-        _data.value = updatedData // Trigger recomposition
+        _data.value = updatedData.toList() // Trigger recomposition
 
         val updatedLocalData = _localData.value.toMutableList()
         updatedLocalData.add(newDestination)
-        _localData.value = updatedLocalData // Trigger recomposition
+        _localData.value = updatedLocalData.toList() // Trigger recomposition
 
-        mutableMockData.add(newDestination) // Sync mock data
+        mutableMockData = updatedData.toMutableList() // Trigger recomposition
     }
 
     fun updateDestination(index: Int, updatedDestination: DestinationDomain) {

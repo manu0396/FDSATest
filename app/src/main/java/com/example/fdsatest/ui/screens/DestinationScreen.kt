@@ -77,9 +77,7 @@ fun DestinationScreen(
     var createDestinationLastModify by remember {
         mutableStateOf(
             Timestamp(
-                DateUtils.extractMilliseconds(
-                    System.currentTimeMillis().toString()
-                )
+                System.currentTimeMillis()
             )
         )
     }
