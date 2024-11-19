@@ -16,4 +16,9 @@
     <string name="na">N/A</string>
     <string name="noUrl">No URL provided</string>
     <string name="descriptionNotFound">Destination not found</string>
+    <string name="descriptionLabel">Description</string>
+    <string name="countryLabel">Country</string>
+    <string name="typeLabel">Type</string>
+    <string name="pictureLabel">Picture URL</string>
+    <string name="lastModify">Last modify</string>
 </resources>

@@ -245,7 +245,6 @@ class SharedViewModel @Inject constructor(
             val newLocalData = _localData.value.toMutableList()
 
             if (index in newData.indices) {
-                Log.d("Update", "Existing item before update: ${newData[index]}")
                 val existingItem = newData[index]
                 val safeUpdatedDestination = updatedDestination.copy(
                     id = existingItem?.id ?: updatedDestination.id
@@ -254,11 +253,9 @@ class SharedViewModel @Inject constructor(
                 newData[index] = safeUpdatedDestination
                 _data.value = newData.toList() // Trigger recomposition
                 mutableMockData = newData.toMutableList()
-                Log.d("Update", "Updated _data after modification: ${_data.value}")
             }
 
             if (index in newLocalData.indices) {
-                Log.d("Update", "Existing local item before update: ${newLocalData[index]}")
                 val existingItem = newLocalData[index]
                 val safeUpdatedDestination = updatedDestination.copy(
                     id = existingItem?.id ?: updatedDestination.id
@@ -271,7 +268,6 @@ class SharedViewModel @Inject constructor(
                     RemoveLocalDestinationUseCase.delete(MainMapper.destinationDomainToDestinationData(existingItem))
                     InsertLocalDestinationUseCase.insert(MainMapper.destinationDomainToDestinationData(updatedDestination))
                 }
-                Log.d("Update", "Updated _localData after modification: ${_localData.value}")
             } else {
                 Log.e("Update", "Invalid index $index for data or localData list")
                 _showDialog.value = true
@@ -321,7 +317,6 @@ class SharedViewModel @Inject constructor(
     }
 
     fun setSelectedDestinationIndex(index: Int?) {
-        Log.d("VerticalDataSelector", "setSelectedDestination:$index")
         _selectedRowIndex.value = index
     }
 

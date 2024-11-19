@@ -93,10 +93,6 @@ fun EditableTable(
                     data,
                     key = { index, item -> item?.id ?: index.toString() }) { rowIndex, rowData ->
                     val isSelected = rowIndex == selectedRowIndex.value
-                    Log.d(
-                        "rowIndex",
-                        "rowIndex: $rowIndex selectedRowIndex: $selectedRowIndex data: ${rowData?.name} isSelected: $isSelected"
-                    )
 
                     Card(
                         modifier = Modifier
@@ -140,10 +136,6 @@ fun EditableTable(
                                         onPress = {
                                             selectedRowIndex.value = rowIndex
                                             viewModel.setSelectedDestinationIndex(rowIndex)
-                                            Log.d(
-                                                "rowIndex",
-                                                "update selectedRowIndex: ${selectedRowIndex.value}"
-                                            )
                                         }
                                     )
                                 }

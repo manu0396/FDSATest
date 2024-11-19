@@ -72,35 +72,35 @@ fun DetailDestinationScreen(
                         // Detail Row for Description
                         DetailRow(
                             icon = Icons.Default.Info,
-                            label = "Description",
+                            label = context.getString(R.string.descriptionLabel),
                             content = it.description ?: context.getString(R.string.noDescription)
                         )
 
                         // Detail Row for Country Mode
                         DetailRow(
                             icon = Icons.Default.Place,
-                            label = "Country",
+                            label = context.getString(R.string.countryLabel),
                             content = it.countryMode ?: context.getString(R.string.na)
                         )
 
                         // Detail Row for Type
                         DetailRow(
                             icon = Icons.Default.Place,
-                            label = "Type",
+                            label = context.getString(R.string.typeLabel),
                             content = it.type?.name ?: DestinationType.Country.name
                         )
 
                         // Detail Row for Picture URL
                         DetailRow(
                             icon = Icons.Default.Info,
-                            label = "Picture URL",
+                            label = context.getString(R.string.pictureLabel),
                             content = it.picture ?: context.getString(R.string.noUrl)
                         )
 
                         // Detail Row for Last Modify
                         DetailRow(
                             icon = Icons.Default.DateRange,
-                            label = "Last Modified",
+                            label = context.getString(R.string.lastModify),
                             content = DateUtils.formatDateFromMillis(it.lastModify?.millis?: 0L)
                         )
                     }
