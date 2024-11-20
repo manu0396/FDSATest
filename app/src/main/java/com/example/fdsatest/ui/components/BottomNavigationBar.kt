@@ -1,6 +1,6 @@
 package com.example.fdsatest.ui.components
 
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
@@ -16,17 +16,17 @@ fun BottomNavigationBar() {
     BottomAppBar(
         containerColor = PrimaryColor
     ) {
-        BottomNavigationItem(
+        NavigationBarItem(
             icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
             selected = false,
             onClick = { /* No action yet */ }
         )
-        BottomNavigationItem(
+        NavigationBarItem(
             icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = "List") },
-            selected = true,
+            selected = false,
             onClick = { /* No action yet */ }
         )
-        BottomNavigationItem(
+        NavigationBarItem(
             icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
             selected = false,
             onClick = { /* No action yet */ }
