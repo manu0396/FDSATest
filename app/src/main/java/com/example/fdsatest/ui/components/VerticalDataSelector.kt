@@ -1,7 +1,6 @@
 package com.example.fdsatest.ui.components
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

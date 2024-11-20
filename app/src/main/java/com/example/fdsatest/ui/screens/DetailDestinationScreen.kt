@@ -24,7 +24,6 @@ import com.example.fdsatest.data.remote.models.DestinationType
 import com.example.fdsatest.ui.components.AppBar
 import com.example.fdsatest.ui.components.DetailRow
 import com.example.fdsatest.ui.theme.FDSATestTheme
-import com.example.fdsatest.ui.theme.PrimaryColor
 import com.example.fdsatest.utils.DateUtils
 
 @Composable
