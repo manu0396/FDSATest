@@ -11,7 +11,6 @@ import javax.inject.Inject
 class GetLocalDestinationsUseCase @Inject constructor(
     private val localDatabase: LocalDatabase,
 ) {
-    //TODO: FIX MODELS
     suspend fun getResults(): WrapperResponse<List<DestinationData>> {
         val resp = try {
             localDatabase.dao().getAll()

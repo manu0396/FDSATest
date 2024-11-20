@@ -11,7 +11,6 @@ class GetRemoteDestinationsUseCase @Inject constructor(
     private val repositoryImpl: IRepository
 ) {
 
-   //TODO: FIX MODELS
    suspend fun getAll():WrapperResponse<List<Destination>>{
         val resp = try {
             repositoryImpl.getAll()
