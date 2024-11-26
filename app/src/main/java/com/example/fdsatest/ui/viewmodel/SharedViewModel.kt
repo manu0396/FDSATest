@@ -226,18 +226,27 @@ class SharedViewModel @Inject constructor(
 
     fun createDestination(newDestination: DestinationDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            val updatedData = _data.value.toMutableList()
-            updatedData.add(newDestination)
-            _data.value = updatedData.toList() // Trigger recomposition
+            val currentData = _data.value.toMutableList()
+
+            // Check for duplicate ID
+            if (currentData.any { it?.id == newDestination.id }) {
+                showError("A destination with this ID already exists.")
+                return@launch
+            }
+
+            // Proceed with adding the new destination
+            currentData.add(newDestination)
+            _data.value = currentData.toList() // Trigger recomposition
 
             val updatedLocalData = _localData.value.toMutableList()
             updatedLocalData.add(newDestination)
             _localData.value = updatedLocalData.toList() // Trigger recomposition
 
-            mutableMockData = updatedData.toMutableList() // Trigger recomposition
+            mutableMockData = currentData.toMutableList() // Update mock data
             InsertLocalDestinationUseCase.insert(MainMapper.destinationDomainToDestinationData(newDestination))
         }
     }
+
 
     fun updateDestination(index: Int, updatedDestination: DestinationDomain) {
         viewModelScope.launch(Dispatchers.IO) {
