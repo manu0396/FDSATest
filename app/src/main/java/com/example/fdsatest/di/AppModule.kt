@@ -5,6 +5,8 @@ import com.example.fdsatest.data.remote.ApiClient
 import com.example.fdsatest.data.remote.HotelBediaXApi
 import com.example.fdsatest.data.remote.repository.IRepository
 import com.example.fdsatest.data.remote.repository.RepositoryImpl
+import com.example.fdsatest.domain.useCase.GetRemoteDestinationsUseCase
+import com.example.fdsatest.domain.useCase.GetResultByIdUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +20,14 @@ import javax.inject.Singleton
 @Module
 class AppModule {
     private val httpClient = OkHttpClient.Builder()
+
+    @Singleton
+    @Provides
+    fun provideGetRemoteDestinatinationUseCase(): GetRemoteDestinationsUseCase{
+        return GetRemoteDestinationsUseCase(
+            provideRepositoryImpl()
+        )
+    }
 
     @Singleton
     @Provides
