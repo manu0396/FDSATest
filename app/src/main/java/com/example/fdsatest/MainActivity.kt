@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
@@ -16,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fdsatest.ui.nav.Screens
 import com.example.fdsatest.ui.screens.DestinationScreen
 import com.example.fdsatest.ui.screens.DetailDestinationScreen
+import com.example.fdsatest.ui.screens.HomeScreen
+import com.example.fdsatest.ui.screens.SettingsScreen
 import com.example.fdsatest.ui.theme.FDSATestTheme
 import com.example.fdsatest.ui.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +48,18 @@ class MainActivity : ComponentActivity() {
                                 context = applicationContext,
                                 viewModel = navBackStackEntry.sharedViewModel(navController),
                                 navController = navController
+                            )
+                        }
+                        composable(Screens.Settings.route){
+                            SettingsScreen(
+                                context = applicationContext,
+                                navController = navController
+                            )
+                        }
+                        composable(Screens.Home.route){
+                            HomeScreen(
+                                navController = navController,
+                                context = applicationContext
                             )
                         }
                     }

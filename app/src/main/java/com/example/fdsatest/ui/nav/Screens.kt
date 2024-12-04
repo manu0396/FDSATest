@@ -7,4 +7,8 @@ sealed class Screens (val route: String) {
     object Auth : Screens("auth")
 
     object DetailScreen: Screens("detail_screen")
+
+    object Settings: Screens("settings")
+
+    object Home: Screens("home")
 }

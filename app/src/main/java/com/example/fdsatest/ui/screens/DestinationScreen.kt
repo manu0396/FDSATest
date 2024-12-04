@@ -158,7 +158,7 @@ fun DestinationScreen(
                     onBackClick = { navController.popBackStack() }
                 )
             },
-            bottomBar = { BottomNavigationBar() }
+            bottomBar = { BottomNavigationBar(navController) }
         ) { paddingValues ->
             // Box to contain main content
             Box(
