@@ -50,15 +50,17 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-                        composable(Screens.Settings.route){
+                        composable(Screens.Settings.route){ navBackStackEntry ->
                             SettingsScreen(
                                 context = applicationContext,
+                                viewModel = navBackStackEntry.sharedViewModel(navController),
                                 navController = navController
                             )
                         }
-                        composable(Screens.Home.route){
+                        composable(Screens.Home.route){ navBackStackEntry ->
                             HomeScreen(
                                 navController = navController,
+                                viewModel = navBackStackEntry.sharedViewModel(navController),
                                 context = applicationContext
                             )
                         }

@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.example.fdsatest.R
 import com.example.fdsatest.ui.viewmodel.SharedViewModel
 import com.example.fdsatest.data.remote.models.DestinationType
+import com.example.fdsatest.ui.animations.TripleOrbitLoadingAnimation
 import com.example.fdsatest.ui.components.AppBar
 import com.example.fdsatest.ui.components.DetailRow
 import com.example.fdsatest.ui.theme.FDSATestTheme
@@ -33,6 +34,7 @@ fun DetailDestinationScreen(
     viewModel: SharedViewModel
 ) {
     val destination by viewModel.selectedDestination.collectAsState()
+    val showLoading by viewModel.showLoading.collectAsState()
 
     FDSATestTheme {
         Scaffold(
@@ -44,6 +46,9 @@ fun DetailDestinationScreen(
             },
             contentWindowInsets = WindowInsets(16.dp)
         ) { paddingValues ->
+            if (showLoading) {
+                TripleOrbitLoadingAnimation()
+            }
             Box(
                 modifier = Modifier
                     .fillMaxSize()

@@ -48,6 +48,7 @@ import com.example.fdsatest.R
 import com.example.fdsatest.data.remote.models.DestinationType
 import com.example.fdsatest.data.remote.models.Timestamp
 import com.example.fdsatest.domain.models.DestinationDomain
+import com.example.fdsatest.ui.animations.TripleOrbitLoadingAnimation
 import com.example.fdsatest.ui.components.AppBar
 import com.example.fdsatest.ui.components.BottomNavigationBar
 import com.example.fdsatest.ui.components.DropdownSelector
@@ -231,7 +232,7 @@ fun DestinationScreen(
                 // Display loading indicator or "No data" message
                 if (showLoading) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+                        TripleOrbitLoadingAnimation()
                     }
                 } else if (filteredData.isEmpty() && searchQuery.isNotEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -246,7 +247,7 @@ fun DestinationScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     if (showLoading) {
-                        CircularProgressIndicator()
+                        TripleOrbitLoadingAnimation()
                     } else {
                         if (filterData.isEmpty()) {
                             H2Text(
